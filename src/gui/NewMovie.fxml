@@ -12,7 +12,7 @@
    <content>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Button fx:id="savebtn" layoutX="56.0" layoutY="207.0" mnemonicParsing="false" onAction="#saveSong" text="Save" />
+            <Button fx:id="savebtn" layoutX="56.0" layoutY="207.0" mnemonicParsing="false" onAction="#saveMovie" text="Save" />
             <Button fx:id="cancelNewMovie" layoutX="182.0" layoutY="208.0" mnemonicParsing="false" onAction="#cancelMovie" text="Cancel" />
             <TextField fx:id="titlelbl" layoutX="101.0" layoutY="43.0" prefHeight="26.0" prefWidth="126.0" />
             <TextField fx:id="lengthlbl" layoutX="102.0" layoutY="88.0" prefHeight="26.0" prefWidth="125.0" />

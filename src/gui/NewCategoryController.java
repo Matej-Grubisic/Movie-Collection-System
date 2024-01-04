@@ -1,8 +1,10 @@
 package gui;
 
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.stage.Stage;
 
 public class NewCategoryController {
     public ChoiceBox categorychoice;
@@ -13,5 +15,7 @@ public class NewCategoryController {
     }
 
     public void cancelCategory(ActionEvent actionEvent) {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.close();
     }
 }
