@@ -72,6 +72,7 @@ public class NewMovieController implements Initializable {
         }
         else{
             System.out.println("file is not valid");
+            //
         }
     }
 }
