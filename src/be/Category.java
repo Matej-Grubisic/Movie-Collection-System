@@ -12,6 +12,10 @@ public class Category {
         this.allMovies = allMovies;
     }
 
+    public Category(){
+
+    }
+
     public String getName() {
         return name;
     }
