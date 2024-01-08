@@ -41,6 +41,7 @@ public class MainScreenController implements Initializable {
     public ObservableList<Category> categoryList;
     public TableColumn genre;
     public TableColumn numberOfFilms;
+    public TableColumn category;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -49,6 +50,7 @@ public class MainScreenController implements Initializable {
         lenght.setCellValueFactory(new PropertyValueFactory<>("movieLength"));
         personalRating.setCellValueFactory(new PropertyValueFactory<>("persRating"));
         imdb.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
+        category.setCellValueFactory(new PropertyValueFactory<>("category"));
         movieList = FXCollections.observableArrayList();
         movieTable.setItems(movieList);
 
@@ -131,7 +133,8 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    public void updateMovie(ActionEvent actionEvent) {
+    public void updateMovie(ActionEvent actionEvent) throws IOException {
+
     }
 
     public void moveToCategory(ActionEvent actionEvent) {

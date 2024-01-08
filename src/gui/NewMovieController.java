@@ -26,6 +26,8 @@ public class NewMovieController implements Initializable {
     public String[] personalRating={"1","2","3","4","5","6","7","8","9","10"};
     public Button filechoosebtn;
     public TextField filelbl;
+    public ChoiceBox<String> categoryChoice;
+    public String[] categorys={"Comedy","Horror","Drama","Action","Crime","Romance","Thriller","Documentary","Science fiction"};
 
     private MainScreenController m;
 
@@ -35,6 +37,7 @@ public class NewMovieController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         imdb.getItems().addAll(imdbrating);
         personalR.getItems().addAll(personalRating);
+        categoryChoice.getItems().addAll(categorys);
 
     }
     public void setMainScreenController(MainScreenController mainScreenController){
@@ -45,9 +48,10 @@ public class NewMovieController implements Initializable {
     public void saveMovie(ActionEvent actionEvent) {
         Movie movie=new Movie();
         movie.setMovieTitle(titlelbl.getText());
-        movie.setImdbRating(imdb.getSelectionModel().getSelectedItem());
+        movie.setImdbRating(Integer.parseInt(imdb.getSelectionModel().getSelectedItem()));
         movie.setPersRating(Integer.parseInt(personalR.getSelectionModel().getSelectedItem()));
         movie.setMovieLength(Double.parseDouble(lengthlbl.getText()));
+        movie.setCategory((String) categoryChoice.getSelectionModel().getSelectedItem());
         m.addMovie(movie);
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
@@ -72,7 +76,7 @@ public class NewMovieController implements Initializable {
         }
         else{
             System.out.println("file is not valid");
-            //
+            //hshsh
         }
     }
 }
