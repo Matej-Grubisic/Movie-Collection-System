@@ -6,21 +6,22 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="406.0" prefWidth="641.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainScreenController">
+<AnchorPane prefHeight="406.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainScreenController">
    <children>
-      <Button fx:id="closeapp" layoutX="578.0" layoutY="371.0" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
+      <Button fx:id="closeapp" layoutX="670.0" layoutY="371.0" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
       <TableView fx:id="categoryTable" layoutX="14.0" layoutY="21.0" prefHeight="301.0" prefWidth="180.0">
         <columns>
             <TableColumn fx:id="genre" text="Genre Name" />
             <TableColumn fx:id="numberOfFilms" prefWidth="115.20001220703125" text="NO. of movies" />
         </columns>
       </TableView>
-      <TableView fx:id="movieTable" layoutX="373.0" layoutY="21.0" prefHeight="301.0" prefWidth="254.0">
+      <TableView fx:id="movieTable" layoutX="373.0" layoutY="21.0" prefHeight="302.0" prefWidth="342.0">
         <columns>
             <TableColumn fx:id="title" prefWidth="75.0" text="Title" />
             <TableColumn fx:id="lenght" prefWidth="52.00006103515625" text="Lenght" />
             <TableColumn fx:id="personalRating" prefWidth="92.79998779296875" text="Personal rating" />
             <TableColumn fx:id="imdb" prefWidth="48.7999267578125" text="imdb" />
+            <TableColumn fx:id="category" prefWidth="75.0" text="Category" />
         </columns>
       </TableView>
       <Button fx:id="addcatbtn" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#addCategory" text="Add Cat" />
