@@ -4,6 +4,7 @@ import be.Category;
 import be.Movie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -42,6 +43,7 @@ public class MainScreenController implements Initializable {
     public TableColumn genre;
     public TableColumn numberOfFilms;
     public TableColumn category;
+    public TextField SearchBar;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,6 +60,9 @@ public class MainScreenController implements Initializable {
         genre.setCellValueFactory(new PropertyValueFactory<>("name"));
         categoryList = FXCollections.observableArrayList();
         categoryTable.setItems(categoryList);
+
+        //Search bar
+        SearchBar.textProperty().addListener((observable, oldValue, newValue) -> search());
     }
 
     public void addMovie(Movie movie){
@@ -141,6 +146,38 @@ public class MainScreenController implements Initializable {
     }
 
     public void playMovie(ActionEvent actionEvent) {
+    }
+
+    public void search(){
+        FilteredList<Movie> filteredSongs = new FilteredList<>(movieTable.getItems(), b -> true);
+        String searchText = SearchBar.getText();
+
+        filteredSongs.setPredicate(Movie -> {
+            if (searchText == null || searchText.isEmpty()) {
+                return true;
+            }
+
+            String lowerCaseFilter = searchText.toLowerCase();
+
+            String title = Movie.getMovieTitle();
+            String lenght = String.valueOf(Movie.getMovieLength());
+            String PersonalRating = String.valueOf(Movie.getPersRating());
+            String imdbRating= String.valueOf(Movie.getImdbRating());
+            String category= Movie.getCategory();
+
+            boolean titleMatches = title != null && title.toLowerCase().contains(lowerCaseFilter);
+            boolean lenghtMatches = lenght != null && lenght.toLowerCase().contains(lowerCaseFilter);
+            boolean PersonalRatingMatches = PersonalRating != null && PersonalRating.toLowerCase().contains(lowerCaseFilter);
+            boolean imdbRatingMatches = imdbRating != null && imdbRating.toLowerCase().contains(lowerCaseFilter);
+            boolean categoryMatches = category != null && category.toLowerCase().contains(lowerCaseFilter);
+
+            return titleMatches || lenghtMatches || PersonalRatingMatches || imdbRatingMatches || categoryMatches;
+        });
+
+        ObservableList<Movie> sortedSongs = FXCollections.observableArrayList();
+        sortedSongs.addAll(filteredSongs);
+        movieTable.setItems(sortedSongs);
+
     }
 
 
