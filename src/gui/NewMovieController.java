@@ -1,6 +1,7 @@
 package gui;
 
 import be.Movie;
+import dal.MovieDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -46,6 +47,7 @@ public class NewMovieController implements Initializable {
 
 
     public void saveMovie(ActionEvent actionEvent) {
+        MovieDAO MovieDAO = new MovieDAO();
         Movie movie=new Movie();
         movie.setMovieTitle(titlelbl.getText());
         movie.setImdbRating(Integer.parseInt(imdb.getSelectionModel().getSelectedItem()));
@@ -53,6 +55,7 @@ public class NewMovieController implements Initializable {
         movie.setMovieLength(Double.parseDouble(lengthlbl.getText()));
         movie.setCategory((String) categoryChoice.getSelectionModel().getSelectedItem());
         m.addMovie(movie);
+        MovieDAO.createMovie(movie);
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
 
