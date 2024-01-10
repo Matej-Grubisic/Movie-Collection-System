@@ -57,6 +57,7 @@ public class NewMovieController implements Initializable {
         m.addMovie(movie);
         MovieDAO.createMovie(movie);
         m.updateOriginalMovies();
+
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
 
