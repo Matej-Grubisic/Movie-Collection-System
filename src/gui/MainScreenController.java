@@ -2,6 +2,8 @@ package gui;
 
 import be.Category;
 import be.Movie;
+import dal.CategoryDAO;
+import dal.MovieDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -103,7 +106,7 @@ public class MainScreenController implements Initializable {
         primaryStage.show();
     }
     //Deletes the category from the category table.
-    public void deleteCategory(ActionEvent actionEvent) {
+    public void deleteCategory(ActionEvent actionEvent) throws SQLException {
         Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationDialog.setTitle("Confirmation");
         confirmationDialog.setHeaderText("Are you sure you want to delete this category?");
@@ -111,10 +114,14 @@ public class MainScreenController implements Initializable {
         Optional<ButtonType> result = confirmationDialog.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-
+            CategoryDAO CategoryDAO = new CategoryDAO();
             ObservableList<Category> allCategorys, singleCategory;
             allCategorys = categoryTable.getItems();
             singleCategory = categoryTable.getSelectionModel().getSelectedItems();
+            System.out.println(singleCategory + "1");
+            int id = CategoryDAO.getCatfromName(singleCategory.getFirst().getName());
+            System.out.println(id + "2");
+            CategoryDAO.deleteCategory(id);
             singleCategory.forEach(allCategorys::remove);
             categoryTable.refresh();
         }
@@ -145,7 +152,7 @@ public class MainScreenController implements Initializable {
         primaryStage.show();
     }
     //Deletes movie from the movie table.
-    public void deleteMovie(ActionEvent actionEvent) {
+    public void deleteMovie(ActionEvent actionEvent) throws SQLException {
         Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationDialog.setTitle("Confirmation");
         confirmationDialog.setHeaderText("Are you sure you want to delete this movie?");
@@ -153,10 +160,13 @@ public class MainScreenController implements Initializable {
         Optional<ButtonType> result = confirmationDialog.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-
+            MovieDAO MovieDAO = new MovieDAO();
             ObservableList<Movie> allMovies, singleMovie;
             allMovies = movieTable.getItems();
             singleMovie = movieTable.getSelectionModel().getSelectedItems();
+            int id = MovieDAO.getMovfromName(singleMovie.getFirst().getMovieTitle());
+            System.out.println(id + "2");
+            MovieDAO.deleteMovie(id);
             singleMovie.forEach(allMovies::remove);
             movieTable.refresh();
         }
