@@ -25,7 +25,7 @@
             <Label layoutX="29.0" layoutY="203.0" prefHeight="24.0" prefWidth="53.0" text="File" />
             <TextField fx:id="filelbl" layoutX="56.0" layoutY="202.0" />
             <Label layoutX="39.0" layoutY="166.0" text="Category" />
-            <ChoiceBox fx:id="categoryChoice" layoutX="106.0" layoutY="162.0" prefHeight="26.0" prefWidth="113.0" />
+            <TextField fx:id="categoryChoice" layoutX="99.0" layoutY="162.0" />
          </children>
       </AnchorPane>
    </content>

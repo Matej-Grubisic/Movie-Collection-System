@@ -1,4 +1,39 @@
 package dal;
 
-public class CategoryDAO {
+import java.sql.SQLException;
+
+
+import be.Category;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class CategoryDAO implements ICategoryDAO  {
+    @Override
+    public Category getCategory(int id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void deleteCategory(int id) {
+
+    }
+
+    @Override
+    public void updateCategory(Category c) {
+
+    }
+
+    @Override
+    public void createCategory(Category c) {
+        try(Connection con = databaseConnector.getConn())
+        {
+            String sql = "INSERT INTO Movie(name) VALUES (?)";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, c.getName());
+            pstmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

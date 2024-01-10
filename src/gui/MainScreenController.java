@@ -4,7 +4,6 @@ import be.Category;
 import be.Movie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -37,13 +37,23 @@ public class MainScreenController implements Initializable {
     public TableColumn<Movie, Double> lenght;
     public TableColumn personalRating;
     public TableColumn imdb;
+    public TableColumn category;
 
     public ObservableList<Movie> movieList;
     public ObservableList<Category> categoryList;
     public TableColumn genre;
     public TableColumn numberOfFilms;
-    public TableColumn category;
     public TextField SearchBar;
+    public Button SearchBtn;
+    public Button resetTableBtn;
+    private ObservableList<Movie> originalMovies;
+
+
+    private void setupOriginalMovies() {
+        originalMovies = FXCollections.observableArrayList();
+        originalMovies.addAll(movieList);
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,23 +70,25 @@ public class MainScreenController implements Initializable {
         genre.setCellValueFactory(new PropertyValueFactory<>("name"));
         categoryList = FXCollections.observableArrayList();
         categoryTable.setItems(categoryList);
+        //Saves Movies that are alredy in the table
+       setupOriginalMovies();
 
-        //Search bar
-        SearchBar.textProperty().addListener((observable, oldValue, newValue) -> search());
+
+
     }
 
-    public void addMovie(Movie movie){
+    public void addMovie(Movie movie) {
 
         movieList.add(movie);
     }
 
-    public void addGenre(Category category){
+    public void addGenre(Category category) {
         categoryList.add(category);
 
     }
 
 
-    public void closeApplication(ActionEvent actionEvent){
+    public void closeApplication(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
     }
@@ -148,37 +160,37 @@ public class MainScreenController implements Initializable {
     public void playMovie(ActionEvent actionEvent) {
     }
 
-    public void search(){
-        FilteredList<Movie> filteredSongs = new FilteredList<>(movieTable.getItems(), b -> true);
-        String searchText = SearchBar.getText();
 
-        filteredSongs.setPredicate(Movie -> {
-            if (searchText == null || searchText.isEmpty()) {
-                return true;
+    public void ClickSearchBtn(ActionEvent actionEvent) {
+        String letter = SearchBar.getText().toUpperCase();
+        List<Movie> allMovies = movieTable.getItems();
+
+        // Create a new list for filtered movies
+        ObservableList<Movie> filteredMovies = FXCollections.observableArrayList();
+
+        for (Movie movie : allMovies) {
+            if (movie.getMovieTitle().toUpperCase().contains(letter) ||
+                    String.valueOf(movie.getMovieLength()).toUpperCase().contains(letter) ||
+                    String.valueOf(movie.getPersRating()).toUpperCase().contains(letter) ||
+                    String.valueOf(movie.getImdbRating()).toUpperCase().contains(letter) ||
+                    movie.getCategory().toUpperCase().contains(letter)) {
+
+                filteredMovies.add(movie);
             }
-
-            String lowerCaseFilter = searchText.toLowerCase();
-
-            String title = Movie.getMovieTitle();
-            String lenght = String.valueOf(Movie.getMovieLength());
-            String PersonalRating = String.valueOf(Movie.getPersRating());
-            String imdbRating= String.valueOf(Movie.getImdbRating());
-            String category= Movie.getCategory();
-
-            boolean titleMatches = title != null && title.toLowerCase().contains(lowerCaseFilter);
-            boolean lenghtMatches = lenght != null && lenght.toLowerCase().contains(lowerCaseFilter);
-            boolean PersonalRatingMatches = PersonalRating != null && PersonalRating.toLowerCase().contains(lowerCaseFilter);
-            boolean imdbRatingMatches = imdbRating != null && imdbRating.toLowerCase().contains(lowerCaseFilter);
-            boolean categoryMatches = category != null && category.toLowerCase().contains(lowerCaseFilter);
-
-            return titleMatches || lenghtMatches || PersonalRatingMatches || imdbRatingMatches || categoryMatches;
-        });
-
-        ObservableList<Movie> sortedSongs = FXCollections.observableArrayList();
-        sortedSongs.addAll(filteredSongs);
-        movieTable.setItems(sortedSongs);
-
+        }
+        // Set the filtered movies to the movieTable
+        movieTable.setItems(filteredMovies);
+        if(SearchBar.getText().isEmpty()){
+            // Reset the movieTable to the original state
+            movieTable.setItems(originalMovies);
+        }
     }
 
 
+
+    public void updateOriginalMovies() {
+        originalMovies.clear();
+        originalMovies.addAll(movieList);
+    }
 }
+
