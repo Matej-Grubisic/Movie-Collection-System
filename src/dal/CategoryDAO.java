@@ -1,14 +1,11 @@
 package dal;
-
-import java.sql.SQLException;
-
-
 import be.Category;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-public class CategoryDAO implements ICategoryDAO  {
+public class CategoryDAO implements ICategoryDAO{
     @Override
     public Category getCategory(int id) throws SQLException {
         return null;

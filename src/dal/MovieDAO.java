@@ -1,13 +1,11 @@
 package dal;
-
-
 import be.Movie;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class MovieDAO implements IMovieDAO {
+public class MovieDAO implements IMovieDAO{
     @Override
     public Movie getMovie(int id) throws SQLException {
         return null;
@@ -38,5 +36,4 @@ public class MovieDAO implements IMovieDAO {
             throw new RuntimeException(e);
         }
     }
-
 }

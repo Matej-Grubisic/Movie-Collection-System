@@ -47,7 +47,7 @@ public class NewMovieController implements Initializable {
 
 
     public void saveMovie(ActionEvent actionEvent) {
-        MovieDAO MovieDAO=new MovieDAO();
+        MovieDAO MovieDAO = new MovieDAO();
         Movie movie=new Movie();
         movie.setMovieTitle(titlelbl.getText());
         movie.setImdbRating(Integer.parseInt(imdb.getSelectionModel().getSelectedItem()));

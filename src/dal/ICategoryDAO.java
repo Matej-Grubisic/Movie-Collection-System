@@ -6,12 +6,8 @@ import be.Movie;
 import java.sql.SQLException;
 
 public interface ICategoryDAO {
-
-    Category getCategory(int id) throws SQLException;
-
-    void deleteCategory(int id);
-
-    void updateCategory(Category c);
-
-    void createCategory(Category c);
+    public Category getCategory(int id) throws SQLException;
+    public void deleteCategory(int id);
+    public void updateCategory(Category c);
+    public void createCategory(Category c);
 }
