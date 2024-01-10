@@ -76,23 +76,23 @@ public class MainScreenController implements Initializable {
 
 
     }
-
+    //Adds movie to the movie list.
     public void addMovie(Movie movie) {
 
         movieList.add(movie);
     }
-
+    //Adds category to category list.
     public void addGenre(Category category) {
         categoryList.add(category);
 
     }
 
-
+    //Closes the main window of application.
     public void closeApplication(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
     }
-
+    //Opens new window for adding category.
     public void addCategory(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("NewCategory.fxml"));
         Parent root = loader.load();
@@ -102,7 +102,7 @@ public class MainScreenController implements Initializable {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
+    //Deletes the category from the category table.
     public void deleteCategory(ActionEvent actionEvent) {
         Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationDialog.setTitle("Confirmation");
@@ -119,10 +119,22 @@ public class MainScreenController implements Initializable {
             categoryTable.refresh();
         }
     }
+    //Opens up the update category window.
+    public void updateCategory(ActionEvent actionEvent) throws IOException {
+        Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("NewCategory.fxml"));
+        Parent root = loader.load();
 
-    public void updateCategory(ActionEvent actionEvent) {
+        NewCategoryController newCategoryController = loader.getController();
+
+        newCategoryController.setMainScreenController(this);
+        newCategoryController.setCategoryToUpdate(selectedCategory);
+
+        Stage primaryStage = new Stage();
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
     }
-
+    //Opens a window for adding new movie.
     public void addMovie(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("NewMovie.fxml"));
         Parent root = loader.load();
@@ -132,7 +144,7 @@ public class MainScreenController implements Initializable {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
+    //Deletes movie from the movie table.
     public void deleteMovie(ActionEvent actionEvent) {
         Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationDialog.setTitle("Confirmation");
@@ -149,9 +161,22 @@ public class MainScreenController implements Initializable {
             movieTable.refresh();
         }
     }
-
+    //Opens a window for updating a movie.
     public void updateMovie(ActionEvent actionEvent) throws IOException {
+        Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("NewMovie.fxml"));
+        Parent root = loader.load();
 
+        NewMovieController newMovieController = loader.getController();
+        newMovieController.setMainScreenController(this);
+        newMovieController.setMovieToUpdate(selectedMovie);
+
+        Stage primaryStage = new Stage();
+        primaryStage.setScene(new Scene(root));
+        primaryStage.showAndWait();
+
+
+        updateOriginalMovies();
     }
 
     public void moveToCategory(ActionEvent actionEvent) {
@@ -183,6 +208,22 @@ public class MainScreenController implements Initializable {
         if(SearchBar.getText().isEmpty()){
             // Reset the movieTable to the original state
             movieTable.setItems(originalMovies);
+        }
+    }
+    //Updates the movies in the list after user updates the movie.
+    public void updateMovieInList(Movie updatedMovie) {
+
+        int index = movieList.indexOf(updatedMovie);
+
+        if (index != -1) {
+            movieList.set(index, updatedMovie);
+        }
+    }
+    public void updateCategoryInList(Category updatedCategory){
+        int index = categoryList.indexOf(updatedCategory);
+
+        if (index != -1) {
+            categoryList.set(index, updatedCategory);
         }
     }
 

@@ -1,6 +1,7 @@
 package gui;
 
 import be.Category;
+import dal.CategoryDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -16,6 +17,7 @@ public class NewCategoryController implements Initializable {
     public ChoiceBox categorychoice;
     public Button savecatlbl;
     public Button cancelcatlbl;
+    private Category categoryToUpdate;
 
     private MainScreenController m;
 
@@ -31,8 +33,17 @@ public class NewCategoryController implements Initializable {
 
     public void saveCategory(ActionEvent actionEvent) {
         Category category=new Category();
-        category.setName((String) categorychoice.getSelectionModel().getSelectedItem());
-        m.addGenre(category);
+        CategoryDAO categoryDAO= new CategoryDAO();
+        if(categoryToUpdate!=null){
+            categoryToUpdate.setName((String) categorychoice.getSelectionModel().getSelectedItem());
+            categoryDAO.updateCategory(categoryToUpdate);
+            m.updateCategoryInList(categoryToUpdate);
+        }
+        else {
+            category.setName((String) categorychoice.getSelectionModel().getSelectedItem());
+            m.addGenre(category);
+            categoryDAO.createCategory(category);
+        }
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
     }
@@ -40,5 +51,9 @@ public class NewCategoryController implements Initializable {
     public void cancelCategory(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
+    }
+    public void setCategoryToUpdate(Category category) {
+        this.categoryToUpdate=category;
+        categorychoice.setValue(category.getName());
     }
 }

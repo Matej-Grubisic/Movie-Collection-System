@@ -17,7 +17,16 @@ public class CategoryDAO implements ICategoryDAO{
 
     @Override
     public void updateCategory(Category c) {
+        try (Connection con = databaseConnector.getConn()) {
+            String sql = "UPDATE Category SET name=? WHERE categoryID=?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, c.getName());
+            pstmt.setInt(2, c.getId());
 
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
