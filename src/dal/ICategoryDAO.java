@@ -10,4 +10,4 @@ public interface ICategoryDAO {
     public void deleteCategory(int id);
     public void updateCategory(Category c);
     public void createCategory(Category c);
-}
+

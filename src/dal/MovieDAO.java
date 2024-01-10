@@ -1,6 +1,8 @@
 package dal;
-
 import be.Movie;
+
+
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,4 +39,6 @@ public class MovieDAO implements IMovieDAO{
             throw new RuntimeException(e);
         }
     }
+
 }
+
