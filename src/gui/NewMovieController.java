@@ -51,6 +51,17 @@ public class NewMovieController implements Initializable {
     public void saveMovie(ActionEvent actionEvent) {
         MovieDAO movieDAO = new MovieDAO();
         if (movieToUpdate != null) {
+           update();
+        } else {
+            create();
+        }
+
+        Stage stage = (Stage) savebtn.getScene().getWindow();
+        stage.close();
+    }
+
+        public void update(){
+            MovieDAO movieDAO = new MovieDAO();
             movieToUpdate.setMovieTitle(titlelbl.getText());
             movieToUpdate.setImdbRating(Integer.parseInt(imdb.getValue()));
             movieToUpdate.setPersRating(Integer.parseInt(personalR.getValue()));
@@ -60,7 +71,10 @@ public class NewMovieController implements Initializable {
 
             movieDAO.updateMovie(movieToUpdate);
             m.updateMovieInList(movieToUpdate);
-        } else {
+        }
+
+        public void create(){
+            MovieDAO movieDAO = new MovieDAO();
             Movie movie = new Movie();
             movie.setMovieTitle(titlelbl.getText());
             movie.setImdbRating(Integer.parseInt(imdb.getValue()));
@@ -72,12 +86,6 @@ public class NewMovieController implements Initializable {
             m.addMovie(movie);
             m.updateOriginalMovies();
         }
-
-        // Close the stage
-        Stage stage = (Stage) savebtn.getScene().getWindow();
-        stage.close();
-    }
-
 
     //Closes add or update movie window.
     public void cancelMovie(ActionEvent actionEvent) {

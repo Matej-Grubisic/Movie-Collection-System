@@ -32,21 +32,30 @@ public class NewCategoryController implements Initializable {
     }
 
     public void saveCategory(ActionEvent actionEvent) {
-        Category category=new Category();
-        CategoryDAO categoryDAO= new CategoryDAO();
         if(categoryToUpdate!=null){
-            categoryToUpdate.setName((String) categorychoice.getSelectionModel().getSelectedItem());
-            categoryDAO.updateCategory(categoryToUpdate);
-            m.updateCategoryInList(categoryToUpdate);
+           updateCat();
         }
         else {
-            category.setName((String) categorychoice.getSelectionModel().getSelectedItem());
-            m.addGenre(category);
-            categoryDAO.createCategory(category);
+            createCat();
         }
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
     }
+
+    public void createCat(){
+        Category category=new Category();
+        CategoryDAO categoryDAO= new CategoryDAO();
+        category.setName((String) categorychoice.getSelectionModel().getSelectedItem());
+        m.addGenre(category);
+        categoryDAO.createCategory(category);
+    }
+    public void updateCat(){
+        CategoryDAO categoryDAO= new CategoryDAO();
+        categoryToUpdate.setName((String) categorychoice.getSelectionModel().getSelectedItem());
+        categoryDAO.updateCategory(categoryToUpdate);
+        m.updateCategoryInList(categoryToUpdate);
+    }
+
 
     public void cancelCategory(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
