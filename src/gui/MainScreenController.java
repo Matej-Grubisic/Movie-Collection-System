@@ -15,8 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
+
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -50,6 +53,7 @@ public class MainScreenController implements Initializable {
     public Button SearchBtn;
     public Button resetTableBtn;
     private ObservableList<Movie> originalMovies;
+    public ObservableList<Movie> selectedGenreMovies;
 
 
     private void setupOriginalMovies() {
@@ -76,6 +80,7 @@ public class MainScreenController implements Initializable {
         //Saves Movies that are alredy in the table
        setupOriginalMovies();
 
+       selectedGenreMovies = FXCollections.observableArrayList();
 
 
     }
@@ -190,9 +195,38 @@ public class MainScreenController implements Initializable {
     }
 
     public void moveToCategory(ActionEvent actionEvent) {
+        Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
+        Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
+
+        if (selectedMovie != null && selectedCategory != null) {
+            CategoryDAO categoryDAO = new CategoryDAO();
+            categoryTable.getItems().add(selectedMovie.getMovieTitle());
+            categoryDAO.addMovieToCategory(selectedMovie, selectedCategory);
+        }
+        /*Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
+        Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
+
+        if(selectedMovie != null && selectedCategory != null){
+            categoryTable.getItems().add(selectedMovie.getMovieTitle());
+            CategoryDAO.addMovieToCategory(selectedMovie, selectedCategory);
+        }*/
     }
 
     public void playMovie(ActionEvent actionEvent) {
+        Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
+
+        if (selectedMovie != null) {
+            File movieFile = new File(selectedMovie.getFilepath());
+
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().open(movieFile);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 
@@ -243,5 +277,12 @@ public class MainScreenController implements Initializable {
         originalMovies.clear();
         originalMovies.addAll(movieList);
     }
+
+    public void showMoviesInCategoryList(ActionEvent actionEvent) throws IOException {
+        Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
+        this.selectedGenreMovies.addAll(selectedCategory.getAllMovies());
+    }
 }
+
+
 
