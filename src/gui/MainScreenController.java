@@ -221,11 +221,17 @@ public class MainScreenController implements Initializable {
             if (Desktop.isDesktopSupported()) {
                 try {
                     Desktop.getDesktop().open(movieFile);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
+                    // Add additional logging or error handling if needed
                 }
+            } else {
+                // Handle the case where Desktop is not supported
+                System.out.println("Desktop is not supported. Unable to open the movie.");
             }
+        } else {
+            // Handle the case where no movie is selected
+            System.out.println("No movie selected.");
         }
     }
 
