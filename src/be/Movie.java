@@ -11,18 +11,17 @@ public class Movie {
     private String category;
     private int id;
 
-    public Movie(String movieTitle, double movieLength, int imdbRating, int persRating, String filepath, String category) {
+    public Movie(String movieTitle, int imdbRating, int persRating, String filepath) {
         this.movieTitle = movieTitle;
-        this.movieLength = movieLength;
         this.imdbRating = imdbRating;
         this.persRating = persRating;
         this.filepath = filepath;
-        this.category =category;
     }
 
     public Movie(){
 
     }
+
 
     public void setMovieTitle(String movieTitle) {
         this.movieTitle = movieTitle;

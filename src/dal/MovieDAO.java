@@ -2,12 +2,9 @@ package dal;
 import be.Movie;
 
 
-
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieDAO implements IMovieDAO{
     @Override
@@ -66,19 +63,42 @@ public class MovieDAO implements IMovieDAO{
     public void createMovie(Movie m) {
         try(Connection con = databaseConnector.getConn())
         {
-            String sql = "INSERT INTO Movie(name, rating,filelink, lastview) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO Movie(name, IMDBrating,Prating,filelink, lastview) VALUES (?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, m.getMovieTitle());
             pstmt.setInt(2, m.getImdbRating());
-            pstmt.setDouble(3, m.getMovieLength());
-            pstmt.setString(4, "empty for now");
+            pstmt.setInt(3, m.getPersRating());
+            pstmt.setString(4, m.getFilepath());
+            pstmt.setString(5, "empty for now");
             pstmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Override
+    public List<Movie> getAllMovie() {
+        List<Movie> movies = new ArrayList<>();
 
+        try (Connection con = databaseConnector.getConn()) {
+            String sql = "SELECT * FROM Movie";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("movieID");
+                String name = rs.getString("name");
+                int imdb = rs.getInt("IMDBrating");
+                int personal = rs.getInt("Prating");
+                String filelink = rs.getString("filelink");
+                int lastview = rs.getInt("lastview");
 
+                Movie m = new Movie(name, imdb,personal, filelink);
+                movies.add(m);
+            }
+            return movies;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 

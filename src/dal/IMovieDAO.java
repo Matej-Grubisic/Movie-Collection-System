@@ -13,4 +13,6 @@ public interface IMovieDAO {
     public void deleteMovie(int id);
     public void updateMovie(Movie m) ;
     public void createMovie(Movie m);
+
+    List<Movie> getAllMovie();
 }
