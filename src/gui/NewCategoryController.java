@@ -1,6 +1,7 @@
 package gui;
 
 import be.Category;
+import bll.CategoryManager;
 import dal.CategoryDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -42,18 +43,26 @@ public class NewCategoryController implements Initializable {
         stage.close();
     }
 
-    public void createCat(){
-        Category category=new Category();
-        CategoryDAO categoryDAO= new CategoryDAO();
-        category.setName((String) categorychoice.getSelectionModel().getSelectedItem());
-        m.addGenre(category);
-        categoryDAO.createCategory(category);
+    public void createCat() {
+        CategoryManager categoryManager = new CategoryManager();
+        categoryManager.checkChoiceBox(categorychoice, "Category");
+        if (categoryManager.saveNumber == 1) {
+            Category category = new Category();
+            CategoryDAO categoryDAO = new CategoryDAO();
+            category.setName((String) categorychoice.getSelectionModel().getSelectedItem());
+            m.addGenre(category);
+            categoryDAO.createCategory(category);
+        }
     }
-    public void updateCat(){
-        CategoryDAO categoryDAO= new CategoryDAO();
-        categoryToUpdate.setName((String) categorychoice.getSelectionModel().getSelectedItem());
-        categoryDAO.updateCategory(categoryToUpdate);
-        m.updateCategoryInList(categoryToUpdate);
+    public void updateCat() {
+        CategoryManager categoryManager = new CategoryManager();
+        categoryManager.checkChoiceBox(categorychoice, "Category");
+        if (categoryManager.saveNumber == 1) {
+            CategoryDAO categoryDAO = new CategoryDAO();
+            categoryToUpdate.setName((String) categorychoice.getSelectionModel().getSelectedItem());
+            categoryDAO.updateCategory(categoryToUpdate);
+            m.updateCategoryInList(categoryToUpdate);
+        }
     }
 
 
