@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -47,8 +48,8 @@ public class MainScreenController implements Initializable {
     public TableColumn category;
     public TableColumn file;
 
-    public ObservableList<Movie> movieList;
-    public ObservableList<Category> categoryList;
+    public ObservableList<Movie> movieList1;
+    public ObservableList<Category> categoryList1;
     public TableColumn genre;
     public TableColumn numberOfFilms;
     public TextField SearchBar;
@@ -60,25 +61,44 @@ public class MainScreenController implements Initializable {
 
     private void setupOriginalMovies() {
         originalMovies = FXCollections.observableArrayList();
-        originalMovies.addAll(movieList);
+        originalMovies.addAll(movieList1);
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // adding movies
+        MovieDAO MovieDAO = new MovieDAO();
+        CategoryDAO CategoryDAO = new CategoryDAO();
         title.setCellValueFactory(new PropertyValueFactory<>("movieTitle"));
-        personalRating.setCellValueFactory(new PropertyValueFactory<>("persRating"));
-        imdb.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
+        personalRating.setCellValueFactory(new PropertyValueFactory<>("persRatingS"));
+        imdb.setCellValueFactory(new PropertyValueFactory<>("imdbRatingS"));
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
         file.setCellValueFactory(new PropertyValueFactory<>("filepath"));
-        movieList = FXCollections.observableArrayList();
-        movieTable.setItems(movieList);
+        movieList1 = FXCollections.observableArrayList();
+        movieTable.setItems(movieList1);
+        ArrayList<Movie> movieList= MovieDAO.getAllMovie();
+        ArrayList<Category> categoryList = CategoryDAO.getAllCategory();
+
+        for(Movie val : movieList ){
+            movieTable.setEditable(true);
+            movieTable.getItems().add(val);
+
+        }
+
+        movieTable.setEditable(false);
 
         // adding categorys
         genre.setCellValueFactory(new PropertyValueFactory<>("name"));
-        categoryList = FXCollections.observableArrayList();
-        categoryTable.setItems(categoryList);
+        //categoryTable.setItems(categoryList1);
+        for(Category val : categoryList ){
+            categoryTable.setEditable(true);
+            categoryTable.getItems().add(val);
+
+        }
+        categoryTable.setEditable(false);
+        categoryList1 = FXCollections.observableArrayList();
+
         //Saves Movies that are alredy in the table
        setupOriginalMovies();
 
@@ -88,13 +108,14 @@ public class MainScreenController implements Initializable {
     }
     //Adds movie to the movie list.
     public void addMovie(Movie movie) {
-
-        movieList.add(movie);
+        System.out.println(movie.getImdbRating() + " " + movie.getPersRating());
+        movieList1.add(movie);
+        //movieTable.getItems().add(movie);
     }
     //Adds category to category list.
     public void addGenre(Category category) {
-        categoryList.add(category);
-
+        //categoryList1.add(category);
+        categoryTable.getItems().add(category);
     }
 
     //Closes the main window of application.
@@ -270,17 +291,17 @@ public class MainScreenController implements Initializable {
     //Updates the movies in the list after user updates the movie.
     public void updateMovieInList(Movie updatedMovie) {
 
-        int index = movieList.indexOf(updatedMovie);
+        int index = movieList1.indexOf(updatedMovie);
 
         if (index != -1) {
-            movieList.set(index, updatedMovie);
+            movieList1.set(index, updatedMovie);
         }
     }
     public void updateCategoryInList(Category updatedCategory){
-        int index = categoryList.indexOf(updatedCategory);
+        int index = categoryList1.indexOf(updatedCategory);
 
         if (index != -1) {
-            categoryList.set(index, updatedCategory);
+            categoryList1.set(index, updatedCategory);
         }
     }
 
@@ -288,7 +309,7 @@ public class MainScreenController implements Initializable {
 
     public void updateOriginalMovies() {
         originalMovies.clear();
-        originalMovies.addAll(movieList);
+        originalMovies.addAll(movieList1);
     }
 
     public void showMoviesInCategoryList(ActionEvent actionEvent) throws IOException {

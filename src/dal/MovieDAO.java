@@ -77,8 +77,8 @@ public class MovieDAO implements IMovieDAO{
     }
 
     @Override
-    public List<Movie> getAllMovie() {
-        List<Movie> movies = new ArrayList<>();
+    public ArrayList<Movie> getAllMovie() {
+        ArrayList<Movie> movies = new ArrayList<>();
 
         try (Connection con = databaseConnector.getConn()) {
             String sql = "SELECT * FROM Movie";
@@ -87,10 +87,10 @@ public class MovieDAO implements IMovieDAO{
             while (rs.next()) {
                 int id = rs.getInt("movieID");
                 String name = rs.getString("name");
-                int imdb = rs.getInt("IMDBrating");
-                int personal = rs.getInt("Prating");
+                String imdb = rs.getString("IMDBrating");
+                String personal = rs.getString("Prating");
                 String filelink = rs.getString("filelink");
-                int lastview = rs.getInt("lastview");
+                String lastview = rs.getString("lastview");
 
                 Movie m = new Movie(name, imdb,personal, filelink);
                 movies.add(m);

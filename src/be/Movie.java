@@ -6,6 +6,8 @@ public class Movie {
     private double movieLength;
     private int persRating;
     private int imdbRating;
+    private String persRatingS;
+    private String imdbRatingS;
     private String filepath;
 
     private String category;
@@ -22,6 +24,13 @@ public class Movie {
 
     }
 
+    public Movie(String name, String imdb, String personal, String filelink) {
+        this.movieTitle = name;
+        this.imdbRatingS = imdb;
+        this.persRatingS = personal;
+        this.filepath = filelink;
+    }
+
 
     public void setMovieTitle(String movieTitle) {
         this.movieTitle = movieTitle;
@@ -34,6 +43,12 @@ public class Movie {
     }
     public void setImdbRating(int imdbRating) {
         this.imdbRating = imdbRating;
+    }
+    public void setPersRatingS(int persRatingS) {
+        this.persRatingS = String.valueOf(persRatingS);
+    }
+    public void setImdbRatingS(int imdbRatingS) {
+        this.imdbRatingS = String.valueOf(imdbRatingS);
     }
 
     public void setFilepath(String filepath) {
@@ -55,6 +70,12 @@ public class Movie {
     }
     public int getImdbRating() {
         return imdbRating;
+    }
+    public String getPersRatingS() {
+        return persRatingS;
+    }
+    public String getImdbRatingS() {
+        return imdbRatingS;
     }
     public void setCategory(String category){
         this.category = category;

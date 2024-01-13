@@ -3,6 +3,7 @@ package dal;
 import be.Category;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface ICategoryDAO {
     public String getCategory(int id) throws SQLException;
@@ -14,5 +15,7 @@ public interface ICategoryDAO {
     public void updateCategory(Category c);
 
     public void createCategory(Category c);
+
+    ArrayList<Category> getAllCategory();
 }
 

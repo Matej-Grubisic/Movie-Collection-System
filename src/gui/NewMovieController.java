@@ -71,8 +71,8 @@ public class NewMovieController implements Initializable {
             if (movieManager.saveNumber == 1) {
                 MovieDAO movieDAO = new MovieDAO();
                 movieToUpdate.setMovieTitle(titlelbl.getText());
-                movieToUpdate.setImdbRating(Integer.parseInt(imdb.getValue()));
-                movieToUpdate.setPersRating(Integer.parseInt(personalR.getValue()));
+                movieToUpdate.setImdbRatingS(Integer.parseInt(imdb.getValue()));
+                movieToUpdate.setPersRatingS(Integer.parseInt(personalR.getValue()));
                 movieToUpdate.setCategory(categoryChoice.getText());
                 movieToUpdate.setFilepath(filelbl.getText());
 
@@ -93,8 +93,8 @@ public class NewMovieController implements Initializable {
                 MovieDAO movieDAO = new MovieDAO();
                 Movie movie = new Movie();
                 movie.setMovieTitle(titlelbl.getText());
-                movie.setImdbRating(Integer.parseInt(imdb.getValue()));
-                movie.setPersRating(Integer.parseInt(personalR.getValue()));
+                movie.setImdbRatingS(Integer.parseInt(imdb.getValue()));
+                movie.setPersRatingS(Integer.parseInt(personalR.getValue()));
                 movie.setCategory(categoryChoice.getText());
                 movie.setFilepath(filelbl.getText());
                 movieDAO.createMovie(movie);

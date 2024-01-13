@@ -1,10 +1,9 @@
 package dal;
 import be.Category;
+import be.Movie;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class CategoryDAO implements ICategoryDAO{
     @Override
@@ -84,6 +83,26 @@ public class CategoryDAO implements ICategoryDAO{
             pstmt.setInt(1, selectedMovieID);
             pstmt.setInt(2, selectedCategoryID);
             pstmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ArrayList<Category> getAllCategory(){
+        ArrayList<Category> categories = new ArrayList<>();
+
+        try (Connection con = databaseConnector.getConn()) {
+            String sql = "SELECT * FROM Category";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                int id = rs.getInt("categoryID");
+                String name = rs.getString("name");
+                Category c = new Category(name);
+                categories.add(c);
+            }
+            return categories;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
