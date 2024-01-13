@@ -1,6 +1,5 @@
 package dal;
 import be.Category;
-import be.Movie;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,9 +8,18 @@ import java.sql.SQLException;
 
 public class CategoryDAO implements ICategoryDAO{
     @Override
-    public Category getCategory(int id) throws SQLException {
-
-        return null;
+    public String getCategory(int id) throws SQLException {
+        try (Connection conn = databaseConnector.getConn()) {
+            String sql = "SELECT * FROM Category WHERE name=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String name =  rs.getString("name");
+                return name;
+            }
+        }
+        return " ";
     }
     @Override
     public int getCatfromName(String name) throws SQLException {
@@ -68,13 +76,13 @@ public class CategoryDAO implements ICategoryDAO{
             throw new RuntimeException(e);
         }
     }
-    public void addMovieToCategory(Movie selectedMovie, Category selectedCategory) {
+    public void addMovieToCategory(int selectedMovieID, int selectedCategoryID) {
         try(Connection con = databaseConnector.getConn())
         {
             String sql = "INSERT INTO  CatMovie(MovieID, CategoryID) VALUES (?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, selectedMovie.getId());
-            pstmt.setInt(2, selectedCategory.getId());
+            pstmt.setInt(1, selectedMovieID);
+            pstmt.setInt(2, selectedCategoryID);
             pstmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);

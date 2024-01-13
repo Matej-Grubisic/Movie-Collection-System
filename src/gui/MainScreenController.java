@@ -194,14 +194,19 @@ public class MainScreenController implements Initializable {
         updateOriginalMovies();
     }
 
-    public void moveToCategory(ActionEvent actionEvent) {
+    public void moveToCategory(ActionEvent actionEvent) throws SQLException {
         Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
         Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
 
         if (selectedMovie != null && selectedCategory != null) {
             CategoryDAO categoryDAO = new CategoryDAO();
-            categoryTable.getItems().add(selectedMovie.getMovieTitle());
-            categoryDAO.addMovieToCategory(selectedMovie, selectedCategory);
+            MovieDAO movieDAO = new MovieDAO();
+            int cid = categoryDAO.getCatfromName(selectedCategory.getName());
+            int mid = movieDAO.getMovfromName(selectedMovie.getMovieTitle());
+            System.out.println(mid + "moviee");
+            System.out.println(cid + "category");
+            movieListinCat.getItems().add(selectedMovie.getMovieTitle());
+            categoryDAO.addMovieToCategory(mid, cid);
         }
         /*Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
         Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
