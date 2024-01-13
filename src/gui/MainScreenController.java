@@ -17,8 +17,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
+
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -52,6 +55,7 @@ public class MainScreenController implements Initializable {
     public Button SearchBtn;
     public Button resetTableBtn;
     private ObservableList<Movie> originalMovies;
+    public ObservableList<Movie> selectedGenreMovies;
 
 
     private void setupOriginalMovies() {
@@ -78,6 +82,7 @@ public class MainScreenController implements Initializable {
         //Saves Movies that are alredy in the table
        setupOriginalMovies();
 
+       selectedGenreMovies = FXCollections.observableArrayList();
 
 
     }
@@ -191,10 +196,50 @@ public class MainScreenController implements Initializable {
         updateOriginalMovies();
     }
 
-    public void moveToCategory(ActionEvent actionEvent) {
+    public void moveToCategory(ActionEvent actionEvent) throws SQLException {
+        Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
+        Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
+
+        if (selectedMovie != null && selectedCategory != null) {
+            CategoryDAO categoryDAO = new CategoryDAO();
+            MovieDAO movieDAO = new MovieDAO();
+            int cid = categoryDAO.getCatfromName(selectedCategory.getName());
+            int mid = movieDAO.getMovfromName(selectedMovie.getMovieTitle());
+            System.out.println(mid + "moviee");
+            System.out.println(cid + "category");
+            movieListinCat.getItems().add(selectedMovie.getMovieTitle());
+            categoryDAO.addMovieToCategory(mid, cid);
+        }
+        /*Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
+        Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
+
+        if(selectedMovie != null && selectedCategory != null){
+            categoryTable.getItems().add(selectedMovie.getMovieTitle());
+            CategoryDAO.addMovieToCategory(selectedMovie, selectedCategory);
+        }*/
     }
 
     public void playMovie(ActionEvent actionEvent) {
+        Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
+
+        if (selectedMovie != null) {
+            File movieFile = new File(selectedMovie.getFilepath());
+
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().open(movieFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // Add additional logging or error handling if needed
+                }
+            } else {
+                // Handle the case where Desktop is not supported
+                System.out.println("Desktop is not supported. Unable to open the movie.");
+            }
+        } else {
+            // Handle the case where no movie is selected
+            System.out.println("No movie selected.");
+        }
     }
 
 
@@ -245,5 +290,12 @@ public class MainScreenController implements Initializable {
         originalMovies.clear();
         originalMovies.addAll(movieList);
     }
+
+    public void showMoviesInCategoryList(ActionEvent actionEvent) throws IOException {
+        Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
+        this.selectedGenreMovies.addAll(selectedCategory.getAllMovies());
+    }
 }
+
+
 

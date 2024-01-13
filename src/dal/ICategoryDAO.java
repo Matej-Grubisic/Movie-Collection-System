@@ -5,7 +5,7 @@ import be.Category;
 import java.sql.SQLException;
 
 public interface ICategoryDAO {
-    public Category getCategory(int id) throws SQLException;
+    public String getCategory(int id) throws SQLException;
 
     int getCatfromName(String name) throws SQLException;
 
