@@ -8,22 +8,22 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="412.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainScreenController">
+<AnchorPane prefHeight="412.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainScreenController">
    <children>
-      <Button fx:id="closeapp" layoutX="670.0" layoutY="371.0" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
+      <Button fx:id="closeapp" layoutX="746.0" layoutY="374.0" mnemonicParsing="false" onAction="#closeApplication" text="Close" />
       <TableView fx:id="categoryTable" layoutX="15.0" layoutY="35.0" prefHeight="301.0" prefWidth="180.0">
         <columns>
             <TableColumn fx:id="genre" text="Genre Name" />
             <TableColumn fx:id="numberOfFilms" prefWidth="115.20001220703125" text="NO. of movies" />
         </columns>
       </TableView>
-      <TableView fx:id="movieTable" layoutX="373.0" layoutY="34.0" prefHeight="302.0" prefWidth="342.0">
+      <TableView fx:id="movieTable" layoutX="373.0" layoutY="34.0" prefHeight="302.0" prefWidth="418.0">
         <columns>
             <TableColumn fx:id="title" prefWidth="75.0" text="Title" />
-            <TableColumn fx:id="lenght" prefWidth="52.00006103515625" text="Lenght" />
             <TableColumn fx:id="personalRating" prefWidth="92.79998779296875" text="Personal rating" />
             <TableColumn fx:id="imdb" prefWidth="48.7999267578125" text="imdb" />
             <TableColumn fx:id="category" prefWidth="75.0" text="Category" />
+            <TableColumn fx:id="file" prefWidth="124.80002441406248" text="File Path" />
         </columns>
       </TableView>
       <Button fx:id="addcatbtn" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#addCategory" text="Add Cat" />
@@ -35,8 +35,8 @@
       <ListView fx:id="movieListinCat" layoutX="201.0" layoutY="66.0" prefHeight="270.0" prefWidth="155.0" />
       <Button fx:id="movetocat" layoutX="255.0" layoutY="35.0" mnemonicParsing="false" onAction="#moveToCategory" text="Move" />
       <Button fx:id="playbtn" layoutX="253.0" layoutY="348.0" mnemonicParsing="false" onAction="#playMovie" text="Play" />
-      <Label layoutX="511.0" layoutY="5.0" text="Search:" />
-      <TextField fx:id="SearchBar" layoutX="555.0" layoutY="1.0" prefHeight="26.0" prefWidth="103.0" promptText="Key Words" />
-      <Button fx:id="SearchBtn" layoutX="659.0" layoutY="1.0" mnemonicParsing="false" onAction="#ClickSearchBtn" prefHeight="26.0" prefWidth="55.0" text="Search" />
+      <Label layoutX="592.0" layoutY="5.0" text="Search:" />
+      <TextField fx:id="SearchBar" layoutX="631.0" layoutY="1.0" prefHeight="26.0" prefWidth="103.0" promptText="Key Words" />
+      <Button fx:id="SearchBtn" layoutX="735.0" layoutY="1.0" mnemonicParsing="false" onAction="#ClickSearchBtn" prefHeight="26.0" prefWidth="55.0" text="Search" />
    </children>
 </AnchorPane>

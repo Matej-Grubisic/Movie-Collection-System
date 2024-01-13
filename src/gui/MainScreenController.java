@@ -39,10 +39,10 @@ public class MainScreenController implements Initializable {
     public Button movetocat;
     public Button playbtn;
     public TableColumn title;
-    public TableColumn<Movie, Double> lenght;
     public TableColumn personalRating;
     public TableColumn imdb;
     public TableColumn category;
+    public TableColumn file;
 
     public ObservableList<Movie> movieList;
     public ObservableList<Category> categoryList;
@@ -64,10 +64,10 @@ public class MainScreenController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // adding movies
         title.setCellValueFactory(new PropertyValueFactory<>("movieTitle"));
-        lenght.setCellValueFactory(new PropertyValueFactory<>("movieLength"));
         personalRating.setCellValueFactory(new PropertyValueFactory<>("persRating"));
         imdb.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
         category.setCellValueFactory(new PropertyValueFactory<>("category"));
+        file.setCellValueFactory(new PropertyValueFactory<>("filepath"));
         movieList = FXCollections.observableArrayList();
         movieTable.setItems(movieList);
 

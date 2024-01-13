@@ -1,6 +1,7 @@
 package gui;
 
 import be.Movie;
+import bll.MovieManager;
 import dal.MovieDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -20,7 +21,7 @@ public class NewMovieController implements Initializable {
     public Button savebtn;
     public Button cancelNewMovie;
     public TextField titlelbl;
-    public TextField lengthlbl;
+
     public ChoiceBox<String> imdb;
     public String[] imdbrating={"1","2","3","4","5","6","7","8","9","10"};
     public ChoiceBox<String> personalR;
@@ -60,31 +61,46 @@ public class NewMovieController implements Initializable {
         stage.close();
     }
 
-        public void update(){
-            MovieDAO movieDAO = new MovieDAO();
-            movieToUpdate.setMovieTitle(titlelbl.getText());
-            movieToUpdate.setImdbRating(Integer.parseInt(imdb.getValue()));
-            movieToUpdate.setPersRating(Integer.parseInt(personalR.getValue()));
-            movieToUpdate.setMovieLength(Double.parseDouble(lengthlbl.getText()));
-            movieToUpdate.setCategory(categoryChoice.getText());
-            movieToUpdate.setFilepath(filelbl.getText());
+        public void update() {
+            MovieManager movieManager = new MovieManager();
+            movieManager.checkField(titlelbl, "Title");
+            movieManager.checkChoiceBox(imdb, "imdb Rating");
+            movieManager.checkChoiceBox(personalR, "Personal Rating");
+            movieManager.checkField(categoryChoice, "Category");
+            movieManager.checkField(filelbl, "Filepath");
+            if (movieManager.saveNumber == 1) {
+                MovieDAO movieDAO = new MovieDAO();
+                movieToUpdate.setMovieTitle(titlelbl.getText());
+                movieToUpdate.setImdbRating(Integer.parseInt(imdb.getValue()));
+                movieToUpdate.setPersRating(Integer.parseInt(personalR.getValue()));
+                movieToUpdate.setCategory(categoryChoice.getText());
+                movieToUpdate.setFilepath(filelbl.getText());
 
-            movieDAO.updateMovie(movieToUpdate);
-            m.updateMovieInList(movieToUpdate);
+                movieDAO.updateMovie(movieToUpdate);
+                m.updateMovieInList(movieToUpdate);
+            }
         }
 
-        public void create(){
-            MovieDAO movieDAO = new MovieDAO();
-            Movie movie = new Movie();
-            movie.setMovieTitle(titlelbl.getText());
-            movie.setImdbRating(Integer.parseInt(imdb.getValue()));
-            movie.setPersRating(Integer.parseInt(personalR.getValue()));
-            movie.setMovieLength(Double.parseDouble(lengthlbl.getText()));
-            movie.setCategory(categoryChoice.getText());
-            movie.setFilepath(filelbl.getText());
-            movieDAO.createMovie(movie);
-            m.addMovie(movie);
-            m.updateOriginalMovies();
+        public void create() {
+            MovieManager movieManager = new MovieManager();
+            movieManager.checkField(titlelbl, "Title");
+            movieManager.checkChoiceBox(imdb,"imdb Rating");
+            movieManager.checkChoiceBox(personalR,"Personal Rating");
+            movieManager.checkField(categoryChoice,"Category");
+            movieManager.checkField(filelbl,"Filepath");
+
+            if (movieManager.saveNumber == 1) {
+                MovieDAO movieDAO = new MovieDAO();
+                Movie movie = new Movie();
+                movie.setMovieTitle(titlelbl.getText());
+                movie.setImdbRating(Integer.parseInt(imdb.getValue()));
+                movie.setPersRating(Integer.parseInt(personalR.getValue()));
+                movie.setCategory(categoryChoice.getText());
+                movie.setFilepath(filelbl.getText());
+                movieDAO.createMovie(movie);
+                m.addMovie(movie);
+                m.updateOriginalMovies();
+            }
         }
 
     //Closes add or update movie window.
@@ -98,7 +114,6 @@ public class NewMovieController implements Initializable {
         this.movieToUpdate = movie;
 
         titlelbl.setText(movie.getMovieTitle());
-        lengthlbl.setText(String.valueOf(movie.getMovieLength()));
         imdb.setValue(String.valueOf(movie.getImdbRating()));
         personalR.setValue(String.valueOf(movie.getPersRating()));
         categoryChoice.setText(movie.getCategory());
