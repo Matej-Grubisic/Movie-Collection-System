@@ -18,5 +18,14 @@ public class Main extends Application {
         Parent root = loader.load();
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        FXMLLoader warningScreenLoader = new FXMLLoader(
+                getClass().getResource("WarningScreen.fxml"));
+        Parent warningScreenRoot = warningScreenLoader.load();
+
+        // Create a new stage for the warning screen
+        Stage warningStage = new Stage();
+        warningStage.setScene(new Scene(warningScreenRoot));
+        warningStage.show();
     }
 }
