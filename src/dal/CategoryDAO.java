@@ -1,6 +1,5 @@
 package dal;
 import be.Category;
-import be.Movie;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -103,6 +102,24 @@ public class CategoryDAO implements ICategoryDAO{
                 categories.add(c);
             }
             return categories;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ArrayList<Integer> getCatMovieID(int catID){
+        ArrayList<Integer> movieIDs = new ArrayList<>();
+        try (Connection con = databaseConnector.getConn()) {
+            String sql = "SELECT * FROM CatMovie WHERE CategoryID=?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, catID);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int movID = rs.getInt("MovieID");
+                movieIDs.add(movID);
+            }
+            return movieIDs;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import java.awt.Desktop;
 import java.io.File;
@@ -96,6 +97,39 @@ public class MainScreenController implements Initializable {
             categoryTable.getItems().add(val);
 
         }
+        categoryTable.setRowFactory(tv -> {
+            TableRow<Category> row = new TableRow<Category>() {
+
+                @Override
+                protected void updateItem(Category cat, boolean empty) {
+                    super.updateItem(cat, empty);
+                    // Add your row styling mechanism
+                }
+            };
+
+            row.setOnMouseClicked(me -> {
+                 if (me.getClickCount() == 1) { // Simple click
+                     movieListinCat.setEditable(true);
+                     movieListinCat.getItems().clear();
+                     Category cat = (Category) categoryTable.getSelectionModel().getSelectedItem();
+                     try {
+                         int catID = CategoryDAO.getCatfromName(cat.getName());
+                         ArrayList<Integer> movieIDs = CategoryDAO.getCatMovieID(catID);
+                         ArrayList<String> m = new ArrayList<>();
+                         for(int i = 0; i < movieIDs.size();i++){
+                             int id = movieIDs.get(i);
+                             m.add(MovieDAO.getMovie(id).getMovieTitle());
+                         }
+                         movieListinCat.setEditable(true);
+                         movieListinCat.getItems().addAll(m);
+                     } catch (SQLException e) {
+                         throw new RuntimeException(e);
+                     }
+                 }
+                });
+            return row;
+        });
+
         categoryTable.setEditable(false);
         categoryList1 = FXCollections.observableArrayList();
 
@@ -135,6 +169,7 @@ public class MainScreenController implements Initializable {
     }
     //Deletes the category from the category table.
     public void deleteCategory(ActionEvent actionEvent) throws SQLException {
+
         Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationDialog.setTitle("Confirmation");
         confirmationDialog.setHeaderText("Are you sure you want to delete this category?");

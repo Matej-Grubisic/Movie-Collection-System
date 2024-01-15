@@ -17,5 +17,7 @@ public interface ICategoryDAO {
     public void createCategory(Category c);
 
     ArrayList<Category> getAllCategory();
+
+    ArrayList<Integer> getCatMovieID(int catID);
 }
 

@@ -4,11 +4,24 @@ import be.Movie;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MovieDAO implements IMovieDAO{
     @Override
     public Movie getMovie(int id) throws SQLException {
+        try (Connection conn = databaseConnector.getConn()) {
+            String sql = "SELECT * FROM Movie WHERE movieID=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String IMDBrating = rs.getString("IMDBrating");
+                String Prating = rs.getString("Prating");
+                String filelink = rs.getString("filelink");
+                Movie m = new Movie(name,IMDBrating,Prating,filelink);
+                return m;
+            }
+        }
         return null;
     }
 
