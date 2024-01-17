@@ -57,11 +57,11 @@ public class MovieDAO implements IMovieDAO{
     @Override
     public void updateMovie(Movie m)  {
         try (Connection con = databaseConnector.getConn()) {
-            String sql = "UPDATE Movie SET name=?, rating=?, filelink=?, lastview=? WHERE movieID=?";
+            String sql = "UPDATE Movie SET name=?, IMDBrating=?, Prating=?, filelink=? WHERE movieID=?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, m.getMovieTitle());
             pstmt.setInt(2, m.getImdbRating());
-            pstmt.setDouble(3, m.getMovieLength());
+            pstmt.setInt(3, m.getPersRating());
             pstmt.setString(4, m.getFilepath());
             pstmt.setInt(5, m.getId());
 

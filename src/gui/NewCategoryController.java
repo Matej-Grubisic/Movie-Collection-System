@@ -39,7 +39,7 @@ public class NewCategoryController implements Initializable {
         else {
             createCat();
         }
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Stage stage = (Stage) savecatlbl.getScene().getWindow();
         stage.close();
     }
 

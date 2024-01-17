@@ -68,9 +68,8 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // adding movies
+        // ADDING MOVIES
         MovieDAO MovieDAO = new MovieDAO();
-        CategoryDAO CategoryDAO = new CategoryDAO();
         title.setCellValueFactory(new PropertyValueFactory<>("movieTitle"));
         personalRating.setCellValueFactory(new PropertyValueFactory<>("persRatingS"));
         imdb.setCellValueFactory(new PropertyValueFactory<>("imdbRatingS"));
@@ -79,7 +78,7 @@ public class MainScreenController implements Initializable {
         movieList1 = FXCollections.observableArrayList();
         movieTable.setItems(movieList1);
         ArrayList<Movie> movieList= MovieDAO.getAllMovie();
-        ArrayList<Category> categoryList = CategoryDAO.getAllCategory();
+
 
         for(Movie val : movieList ){
             movieTable.setEditable(true);
@@ -89,9 +88,12 @@ public class MainScreenController implements Initializable {
 
         movieTable.setEditable(false);
 
-        // adding categorys
+        // ADDING CATEGORIES
+        CategoryDAO CategoryDAO=new CategoryDAO();
         genre.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //categoryTable.setItems(categoryList1);
+        categoryList1 = FXCollections.observableArrayList();
+        categoryTable.setItems(categoryList1);
+        ArrayList<Category> categoryList = CategoryDAO.getAllCategory();
         for(Category val : categoryList ){
             categoryTable.setEditable(true);
             categoryTable.getItems().add(val);
@@ -131,7 +133,6 @@ public class MainScreenController implements Initializable {
         });
 
         categoryTable.setEditable(false);
-        categoryList1 = FXCollections.observableArrayList();
 
         //Saves Movies that are alredy in the table
        setupOriginalMovies();
@@ -192,17 +193,18 @@ public class MainScreenController implements Initializable {
     //Opens up the update category window.
     public void updateCategory(ActionEvent actionEvent) throws IOException {
         Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("NewCategory.fxml"));
-        Parent root = loader.load();
+        if (selectedCategory != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("NewCategory.fxml"));
+            Parent root = loader.load();
 
-        NewCategoryController newCategoryController = loader.getController();
+            NewCategoryController newCategoryController = loader.getController();
+            newCategoryController.setMainScreenController(this);
+            newCategoryController.setCategoryToUpdate(selectedCategory);
 
-        newCategoryController.setMainScreenController(this);
-        newCategoryController.setCategoryToUpdate(selectedCategory);
-
-        Stage primaryStage = new Stage();
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+            Stage primaryStage = new Stage();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        }
     }
     //Opens a window for adding new movie.
     public void addMovie(ActionEvent actionEvent) throws IOException {
@@ -237,19 +239,21 @@ public class MainScreenController implements Initializable {
     //Opens a window for updating a movie.
     public void updateMovie(ActionEvent actionEvent) throws IOException {
         Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("NewMovie.fxml"));
-        Parent root = loader.load();
+        if(selectedMovie!=null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("NewMovie.fxml"));
+            Parent root = loader.load();
 
-        NewMovieController newMovieController = loader.getController();
-        newMovieController.setMainScreenController(this);
-        newMovieController.setMovieToUpdate(selectedMovie);
+            NewMovieController newMovieController = loader.getController();
+            newMovieController.setMainScreenController(this);
+            newMovieController.setMovieToUpdate(selectedMovie);
 
-        Stage primaryStage = new Stage();
-        primaryStage.setScene(new Scene(root));
-        primaryStage.showAndWait();
+            Stage primaryStage = new Stage();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.showAndWait();
 
 
-        updateOriginalMovies();
+            updateOriginalMovies();
+        }
     }
 
     public void moveToCategory(ActionEvent actionEvent) throws SQLException {
