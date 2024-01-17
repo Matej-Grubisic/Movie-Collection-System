@@ -7,6 +7,7 @@ import dal.MovieDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -48,7 +49,7 @@ public class MainScreenController implements Initializable {
     public TableColumn imdb;
     public TableColumn category;
     public TableColumn file;
-
+    public Button deleteMovieFromCategorybtn;
     public ObservableList<Movie> movieList1;
     public ObservableList<Category> categoryList1;
     public TableColumn genre;
@@ -279,6 +280,46 @@ public class MainScreenController implements Initializable {
         }*/
     }
 
+    public void deleteMovieFromCategory(ActionEvent actionEvent) throws SQLException {
+        Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationDialog.setTitle("Confirmation");
+        confirmationDialog.setHeaderText("Are you sure you want to delete this movie from the selected category?");
+        confirmationDialog.setContentText("Any unsaved changes will be lost.");
+        Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            CategoryDAO categoryDAO = new CategoryDAO();
+            MovieDAO movieDAO = new MovieDAO();
+
+            Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
+            Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
+
+            if (selectedMovie != null && selectedCategory != null) {
+                int categoryId = categoryDAO.getCatfromName(selectedCategory.getName());
+                int movieId = movieDAO.getMovfromName(selectedMovie.getMovieTitle());
+                 System.out.print("it works 1st if");
+                // Get the CatMovieIDs
+                ArrayList<Integer> catMovieIDs = categoryDAO.getCatMovieID(categoryId);
+
+                // Find and delete the CatMovieID corresponding to the selected movie
+                for (int catMovieId : catMovieIDs) {
+                    if (movieId == categoryDAO.getMovieIDFromCatMovieID(catMovieId)) {
+                        // Delete the movie from the selected category
+                        categoryDAO.deleteMovieFromCategory(catMovieId);
+
+                        // Refresh the movie list in the selected category
+                        refreshMoviesInSelectedCategory();
+                        System.out.print("works 2nd if");
+                        break;  // Stop after the first occurrence is found
+
+                    }
+                }
+            }
+        }
+    }
+
+
+
     public void playMovie(ActionEvent actionEvent) {
         Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
 
@@ -354,6 +395,19 @@ public class MainScreenController implements Initializable {
     public void showMoviesInCategoryList(ActionEvent actionEvent) throws IOException {
         Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
         this.selectedGenreMovies.addAll(selectedCategory.getAllMovies());
+    }
+    private void refreshMoviesInSelectedCategory() {
+        categoryTable.refresh();
+    }
+
+    @FXML
+    private void handleDeleteMovieFromCategory(ActionEvent event) {
+        try {
+            deleteMovieFromCategory(event);
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+            // You might want to show an error message to the user here
+        }
     }
 }
 

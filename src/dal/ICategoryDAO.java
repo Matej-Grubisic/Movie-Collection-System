@@ -16,6 +16,8 @@ public interface ICategoryDAO {
 
     public void createCategory(Category c);
 
+    void deleteMovieFromCategory(int id);
+
     ArrayList<Category> getAllCategory();
 
     ArrayList<Integer> getCatMovieID(int catID);

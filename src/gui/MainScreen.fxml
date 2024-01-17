@@ -21,16 +21,16 @@
         </columns>
       </TableView>
       <Button fx:id="addcatbtn" layoutX="14.0" layoutY="345.0" mnemonicParsing="false" onAction="#addCategory" text="Add Cat" />
-      <Button fx:id="dltcatbtn" layoutX="80.0" layoutY="345.0" mnemonicParsing="false" onAction="#deleteCategory" text="Delete" />
       <Button fx:id="updcatbtn" layoutX="134.0" layoutY="346.0" mnemonicParsing="false" onAction="#updateCategory" text="Update" />
       <Button fx:id="addmoviebtn" layoutX="373.0" layoutY="346.0" mnemonicParsing="false" onAction="#addMovie" text="Add Mov" />
       <Button fx:id="dltmoviebtn" layoutX="445.0" layoutY="346.0" mnemonicParsing="false" onAction="#deleteMovie" text="Delete" />
       <Button fx:id="movieupd" layoutX="503.0" layoutY="347.0" mnemonicParsing="false" onAction="#updateMovie" text="Update" />
       <ListView fx:id="movieListinCat" layoutX="201.0" layoutY="66.0" prefHeight="270.0" prefWidth="155.0" />
       <Button fx:id="movetocat" layoutX="255.0" layoutY="35.0" mnemonicParsing="false" onAction="#moveToCategory" text="Move" />
-      <Button fx:id="playbtn" layoutX="253.0" layoutY="348.0" mnemonicParsing="false" onAction="#playMovie" text="Play" />
+      <Button fx:id="playbtn" layoutX="224.0" layoutY="347.0" mnemonicParsing="false" onAction="#playMovie" text="Play" />
       <Label layoutX="592.0" layoutY="5.0" text="Search:" />
       <TextField fx:id="SearchBar" layoutX="631.0" layoutY="1.0" prefHeight="26.0" prefWidth="103.0" promptText="Key Words" />
       <Button fx:id="SearchBtn" layoutX="735.0" layoutY="1.0" mnemonicParsing="false" onAction="#ClickSearchBtn" prefHeight="26.0" prefWidth="55.0" text="Search" />
+      <Button id="deleteMovieFromCategorybtn" layoutX="292.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleDeleteMovieFromCategory" text="Delete" />
    </children>
 </AnchorPane>
