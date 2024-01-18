@@ -57,14 +57,14 @@ public class MovieDAO implements IMovieDAO{
     @Override
     public void updateMovie(Movie m)  {
         try (Connection con = databaseConnector.getConn()) {
-            String sql = "UPDATE Movie SET name=?, IMDBrating=?, Prating=?, filelink=? WHERE movieID=?";
+            String sql = "UPDATE Movie SET name=?, IMDBrating=?, filelink=?, Prating=? WHERE movieID=?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, m.getMovieTitle());
-            pstmt.setInt(2, m.getImdbRating());
-            pstmt.setInt(3, m.getPersRating());
-            pstmt.setString(4, m.getFilepath());
+            pstmt.setString(2, m.getImdbRatingS());
+            pstmt.setString(3, m.getFilepath());
+            pstmt.setInt(4, m.getPersRating());
             pstmt.setInt(5, m.getId());
-
+            System.out.println(m.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -79,10 +79,9 @@ public class MovieDAO implements IMovieDAO{
             String sql = "INSERT INTO Movie(name, IMDBrating,Prating,filelink, lastview) VALUES (?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, m.getMovieTitle());
-            pstmt.setInt(2, m.getImdbRating());
-            pstmt.setInt(3, m.getPersRating());
+            pstmt.setString(2, m.getImdbRatingS());
+            pstmt.setString(3, m.getPersRatingS());
             pstmt.setString(4, m.getFilepath());
-            pstmt.setString(5, "empty for now");
             pstmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -103,7 +102,6 @@ public class MovieDAO implements IMovieDAO{
                 String imdb = rs.getString("IMDBrating");
                 String personal = rs.getString("Prating");
                 String filelink = rs.getString("filelink");
-                String lastview = rs.getString("lastview");
 
                 Movie m = new Movie(name, imdb,personal, filelink);
                 movies.add(m);

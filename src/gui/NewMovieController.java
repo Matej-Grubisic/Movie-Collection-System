@@ -15,6 +15,7 @@ import javafx.stage.Window;
 
 import java.io.File;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NewMovieController implements Initializable {
@@ -49,7 +50,7 @@ public class NewMovieController implements Initializable {
 
     //If the save button is clicked after user have updated some parameters of the movie it replaces the old mpovies with new.
     //If user was filling the fields for the first time it creates a new movie and adds it to the list.
-    public void saveMovie(ActionEvent actionEvent) {
+    public void saveMovie(ActionEvent actionEvent) throws SQLException {
         MovieDAO movieDAO = new MovieDAO();
         if (movieToUpdate != null) {
            update();
@@ -61,7 +62,7 @@ public class NewMovieController implements Initializable {
         stage.close();
     }
 
-        public void update() {
+        public void update() throws SQLException {
             MovieManager movieManager = new MovieManager();
             movieManager.checkField(titlelbl, "Title");
             movieManager.checkChoiceBox(imdb, "imdb Rating");
@@ -70,6 +71,8 @@ public class NewMovieController implements Initializable {
             movieManager.checkField(filelbl, "Filepath");
             if (movieManager.saveNumber == 1) {
                 MovieDAO movieDAO = new MovieDAO();
+                int movieID = movieDAO.getMovfromName(movieToUpdate.getMovieTitle());
+                movieToUpdate.setId(movieID);
                 movieToUpdate.setMovieTitle(titlelbl.getText());
                 movieToUpdate.setImdbRatingS(Integer.parseInt(imdb.getValue()));
                 movieToUpdate.setPersRatingS(Integer.parseInt(personalR.getValue()));
