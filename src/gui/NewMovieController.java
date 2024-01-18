@@ -67,7 +67,6 @@ public class NewMovieController implements Initializable {
             movieManager.checkField(titlelbl, "Title");
             movieManager.checkChoiceBox(imdb, "imdb Rating");
             movieManager.checkChoiceBox(personalR, "Personal Rating");
-            movieManager.checkField(categoryChoice, "Category");
             movieManager.checkField(filelbl, "Filepath");
             if (movieManager.saveNumber == 1) {
                 MovieDAO movieDAO = new MovieDAO();
@@ -76,7 +75,6 @@ public class NewMovieController implements Initializable {
                 movieToUpdate.setMovieTitle(titlelbl.getText());
                 movieToUpdate.setImdbRatingS(Integer.parseInt(imdb.getValue()));
                 movieToUpdate.setPersRatingS(Integer.parseInt(personalR.getValue()));
-                movieToUpdate.setCategory(categoryChoice.getText());
                 movieToUpdate.setFilepath(filelbl.getText());
 
                 movieDAO.updateMovie(movieToUpdate);
@@ -89,7 +87,6 @@ public class NewMovieController implements Initializable {
             movieManager.checkField(titlelbl, "Title");
             movieManager.checkChoiceBox(imdb,"imdb Rating");
             movieManager.checkChoiceBox(personalR,"Personal Rating");
-            movieManager.checkField(categoryChoice,"Category");
             movieManager.checkField(filelbl,"Filepath");
 
             if (movieManager.saveNumber == 1) {
@@ -98,7 +95,7 @@ public class NewMovieController implements Initializable {
                 movie.setMovieTitle(titlelbl.getText());
                 movie.setImdbRatingS(Integer.parseInt(imdb.getValue()));
                 movie.setPersRatingS(Integer.parseInt(personalR.getValue()));
-                movie.setCategory(categoryChoice.getText());
+
                 movie.setFilepath(filelbl.getText());
                 movieDAO.createMovie(movie);
                 m.addMovie(movie);
@@ -119,7 +116,7 @@ public class NewMovieController implements Initializable {
         titlelbl.setText(movie.getMovieTitle());
         imdb.setValue(String.valueOf(movie.getImdbRating()));
         personalR.setValue(String.valueOf(movie.getPersRating()));
-        categoryChoice.setText(movie.getCategory());
+
         filelbl.setText(movie.getFilepath());
 
     }
