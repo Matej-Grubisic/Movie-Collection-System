@@ -61,7 +61,7 @@ public class CategoryDAO implements ICategoryDAO{
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, c.getName());
             pstmt.setInt(2, c.getId());
-
+            System.out.println(c.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

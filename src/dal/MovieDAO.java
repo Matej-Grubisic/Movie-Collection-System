@@ -62,7 +62,7 @@ public class MovieDAO implements IMovieDAO{
             pstmt.setString(1, m.getMovieTitle());
             pstmt.setString(2, m.getImdbRatingS());
             pstmt.setString(3, m.getFilepath());
-            pstmt.setInt(4, m.getPersRating());
+            pstmt.setString(4, m.getPersRatingS());
             pstmt.setInt(5, m.getId());
             System.out.println(m.getId());
             pstmt.executeUpdate();

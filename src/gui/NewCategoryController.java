@@ -11,6 +11,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class NewCategoryController implements Initializable {
@@ -32,7 +33,7 @@ public class NewCategoryController implements Initializable {
         this.m=mainScreenController;
     }
 
-    public void saveCategory(ActionEvent actionEvent) {
+    public void saveCategory(ActionEvent actionEvent) throws SQLException {
         if(categoryToUpdate!=null){
            updateCat();
         }
@@ -54,12 +55,14 @@ public class NewCategoryController implements Initializable {
             categoryDAO.createCategory(category);
         }
     }
-    public void updateCat() {
+    public void updateCat() throws SQLException {
         CategoryManager categoryManager = new CategoryManager();
         categoryManager.checkChoiceBox(categorychoice, "Category");
         if (categoryManager.saveNumber == 1) {
             CategoryDAO categoryDAO = new CategoryDAO();
+            categoryToUpdate.setId(categoryDAO.getCatfromName(categoryToUpdate.getName()));
             categoryToUpdate.setName((String) categorychoice.getSelectionModel().getSelectedItem());
+
             categoryDAO.updateCategory(categoryToUpdate);
             m.updateCategoryInList(categoryToUpdate);
         }
