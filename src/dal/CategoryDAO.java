@@ -43,6 +43,12 @@ public class CategoryDAO implements ICategoryDAO{
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, id);
             pstmt.execute();
+
+            //delete movie form category
+            String sql2 = "DELETE FROM CatMovie WHERE CatMovieID=?";
+            PreparedStatement pstmt2 = con.prepareStatement(sql2);
+            pstmt2.setInt(1, id);
+            pstmt2.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -74,6 +80,9 @@ public class CategoryDAO implements ICategoryDAO{
             throw new RuntimeException(e);
         }
     }
+
+
+
     public void addMovieToCategory(int selectedMovieID, int selectedCategoryID) {
         try(Connection con = databaseConnector.getConn())
         {
@@ -82,6 +91,20 @@ public class CategoryDAO implements ICategoryDAO{
             pstmt.setInt(1, selectedMovieID);
             pstmt.setInt(2, selectedCategoryID);
             pstmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteMovieFromCategory(int cid, int mid) {
+        try(Connection con = databaseConnector.getConn())
+        {
+            String sql2 = "DELETE FROM CatMovie WHERE CategoryID=? AND MovieID=?";
+            PreparedStatement pstmt2 = con.prepareStatement(sql2);
+            pstmt2.setInt(1, cid);
+            pstmt2.setInt(2, mid);
+            pstmt2.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -123,6 +146,22 @@ public class CategoryDAO implements ICategoryDAO{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public boolean getMovieIDFromCatID(int catMovieId, int MovieID) throws SQLException {
+        try (Connection conn = databaseConnector.getConn()) {
+            String sql = "SELECT MovieID FROM CatMovie WHERE CategoryID=? AND MovieID=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, catMovieId);
+            pstmt.setInt(2, MovieID);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                if(rs.getInt("MovieID") != 0){
+                    return true;
+                }
+            }
+
+        }
+        return false;
     }
 
 }
