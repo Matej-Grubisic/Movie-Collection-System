@@ -271,13 +271,6 @@ public class MainScreenController implements Initializable {
             movieListinCat.getItems().add(selectedMovie.getMovieTitle());
             categoryDAO.addMovieToCategory(mid, cid);
         }
-        /*Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
-        Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
-
-        if(selectedMovie != null && selectedCategory != null){
-            categoryTable.getItems().add(selectedMovie.getMovieTitle());
-            CategoryDAO.addMovieToCategory(selectedMovie, selectedCategory);
-        }*/
     }
 
     public void deleteMovieFromCategory(ActionEvent actionEvent) throws SQLException {
@@ -291,29 +284,28 @@ public class MainScreenController implements Initializable {
             CategoryDAO categoryDAO = new CategoryDAO();
             MovieDAO movieDAO = new MovieDAO();
 
-            Movie selectedMovie = (Movie) movieTable.getSelectionModel().getSelectedItem();
+            String selectedMovie = (String) movieListinCat.getSelectionModel().getSelectedItem();
             Category selectedCategory = (Category) categoryTable.getSelectionModel().getSelectedItem();
 
             if (selectedMovie != null && selectedCategory != null) {
                 int categoryId = categoryDAO.getCatfromName(selectedCategory.getName());
-                int movieId = movieDAO.getMovfromName(selectedMovie.getMovieTitle());
-                 System.out.print("it works 1st if");
+                int movieId = movieDAO.getMovfromName(selectedMovie);
+                 System.out.println("it works 1st if");
                 // Get the CatMovieIDs
                 ArrayList<Integer> catMovieIDs = categoryDAO.getCatMovieID(categoryId);
-
+                System.out.println(movieId);
+                //System.out.println(categoryDAO.getMovieIDFromCatMovieID(categoryId));
                 // Find and delete the CatMovieID corresponding to the selected movie
-                for (int catMovieId : catMovieIDs) {
-                    if (movieId == categoryDAO.getMovieIDFromCatMovieID(catMovieId)) {
+                    if (categoryDAO.getMovieIDFromCatMovieID(categoryId, movieId) == movieId) {
+                        System.out.print("works 2nd if");
                         // Delete the movie from the selected category
-                        categoryDAO.deleteMovieFromCategory(catMovieId);
+                        categoryDAO.deleteMovieFromCategory(categoryId);
 
                         // Refresh the movie list in the selected category
                         refreshMoviesInSelectedCategory();
-                        System.out.print("works 2nd if");
-                        break;  // Stop after the first occurrence is found
 
                     }
-                }
+
             }
         }
     }
@@ -397,7 +389,7 @@ public class MainScreenController implements Initializable {
         this.selectedGenreMovies.addAll(selectedCategory.getAllMovies());
     }
     private void refreshMoviesInSelectedCategory() {
-        categoryTable.refresh();
+        movieListinCat.refresh();
     }
 
     @FXML

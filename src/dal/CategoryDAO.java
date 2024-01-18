@@ -97,7 +97,7 @@ public class CategoryDAO implements ICategoryDAO{
     public void deleteMovieFromCategory(int id) {
         try(Connection con = databaseConnector.getConn())
         {
-            String sql2 = "DELETE FROM CatMovie WHERE CatMovieID=?";
+            String sql2 = "DELETE FROM CatMovie WHERE CategoryID=?";
             PreparedStatement pstmt2 = con.prepareStatement(sql2);
             pstmt2.setInt(1, id);
             pstmt2.execute();
@@ -143,15 +143,16 @@ public class CategoryDAO implements ICategoryDAO{
             throw new RuntimeException(e);
         }
     }
-    public int getMovieIDFromCatMovieID(int catMovieId) throws SQLException {
+    public int getMovieIDFromCatMovieID(int catMovieId, int MovieID) throws SQLException {
         try (Connection conn = databaseConnector.getConn()) {
-            String sql = "SELECT MovieID FROM CatMovie WHERE CatMovieID=?";
+            String sql = "SELECT MovieID FROM CatMovie WHERE CategoryID=? AND MovieID=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, catMovieId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt("MovieID");
             }
+
         }
         return -1;
     }
