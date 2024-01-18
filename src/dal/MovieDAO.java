@@ -76,7 +76,7 @@ public class MovieDAO implements IMovieDAO{
     public void createMovie(Movie m) {
         try(Connection con = databaseConnector.getConn())
         {
-            String sql = "INSERT INTO Movie(name, IMDBrating,Prating,filelink, lastview) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO Movie(name, IMDBrating,Prating,filelink) VALUES (?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, m.getMovieTitle());
             pstmt.setString(2, m.getImdbRatingS());
