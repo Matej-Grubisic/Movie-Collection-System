@@ -31,14 +31,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
-    public Button closeapp;
+    private Button closeapp;
     public TableView categoryTable;
     public TableView movieTable;
     public Button addcatbtn;
-    public Button dltcatbtn;
+    private Button dltcatbtn;
     public Button updcatbtn;
-    public Button addmoviebtn;
-    public Button dltmoviebtn;
+    private Button addmoviebtn;
+    private Button dltmoviebtn;
     public Button movieupd;
     public ListView movieListinCat;
     public Button movetocat;
@@ -46,18 +46,18 @@ public class MainScreenController implements Initializable {
     public TableColumn title;
     public TableColumn personalRating;
     public TableColumn imdb;
-    public TableColumn category;
+    private TableColumn category;
     public TableColumn file;
     public Button deleteMovieFromCategorybtn;
-    public ObservableList<Movie> movieList1;
-    public ObservableList<Category> categoryList1;
+    private ObservableList<Movie> movieList1;
+    private ObservableList<Category> categoryList1;
     public TableColumn genre;
     public TableColumn numberOfFilms;
     public TextField SearchBar;
     public Button SearchBtn;
-    public Button resetTableBtn;
+    private Button resetTableBtn;
     private ObservableList<Movie> originalMovies;
-    public ObservableList<Movie> selectedGenreMovies;
+    private ObservableList<Movie> selectedGenreMovies;
 
 
     private void setupOriginalMovies() {
